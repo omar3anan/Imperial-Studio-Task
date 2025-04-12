@@ -1,0 +1,31 @@
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <h2>Sign Up</h2>
+
+    <div>
+      <label for="name">Name:</label>
+      <input id="name" type="text" formControlName="name">
+      <div *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
+        Name is required.
+      </div>
+    </div>
+
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" type="email" formControlName="email">
+      <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
+        A valid email is required.
+      </div>
+    </div>
+
+    <div>
+      <label for="password">Password:</label>
+      <input id="password" type="password" formControlName="password">
+      <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+        Password is required.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="signupForm.invalid">Sign Up</button>
+
+    <p>{{ message }}</p>
+  </form>

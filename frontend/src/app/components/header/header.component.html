@@ -1,0 +1,15 @@
+<nav class="nav">
+  <!-- Proper routerLink usage -->
+  <a routerLink="/products" routerLinkActive="active">Products</a>
+  <a routerLink="/wishlist" routerLinkActive="active">❤️ Wishlist</a>
+
+  <!-- Profile Dropdown -->
+  <div class="dropdown">
+    <a routerLink="/profile" routerLinkActive="active"><button class="profile-icon">👤</button></a>
+    <div class="dropdown-content">
+      <!-- <a routerLink="/profile" routerLinkActive="active">Profile</a> -->
+      <a routerLink="/login" routerLinkActive="active">Login</a>
+      <a routerLink="/signup" routerLinkActive="active">Signup</a>
+    </div>
+  </div>
+</nav>

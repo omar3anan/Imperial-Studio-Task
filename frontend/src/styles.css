@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+/* ---------------------------- */
+/* Navigation Header Styles     */
+/* ---------------------------- */
+.nav {
+  background-color: #4a90e2;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  margin-right: 1.5rem;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.nav a:hover,
+.nav a.active {
+  color: #ffeb3b;
+}
