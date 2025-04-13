@@ -1,60 +1,81 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { AuthService, User } from '../../services/auth.service';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],  // Import necessary modules here
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css'],
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  user$: Observable<User | null>; // Observable for the user
-  user: User = { name: '', email: '', password: '', profilePicture: '' }; // Include profilePicture and password
+  profileForm: FormGroup;
+  currentUser: User | null = null;
+  selectedFile: File | null = null;
+  profilePictureUrl: string | undefined;
+  defaultProfilePic = 'path/to/default/profile/pic.png';  // Add a default profile picture URL if no profile picture
 
-  constructor(public authService: AuthService) {
-    // Make authService public so it can be accessed in the template
-    this.user$ = this.authService.user$;
+  constructor(private fb: FormBuilder, private authService: AuthService, private http: HttpClient) {
+    this.profileForm = this.fb.group({
+      name: [''],
+      email: ['']
+    });
   }
 
   ngOnInit(): void {
-    // You may add logic to load the user if required
-  }
-
-  // Handle login form submission
-  onLogin() {
-    this.authService.login(this.user).subscribe(
-      (authenticatedUser: User) => {
-        console.log('Login successful:', authenticatedUser);
-        this.authService.setUser(authenticatedUser);
-      },
-      (error) => {
-        console.error('Login failed:', error);
+    // Subscribe to the user observable to get the current user info
+    this.authService.user$.subscribe(user => {
+      this.currentUser = user;
+      if (user) {
+        this.profileForm.patchValue({
+          name: user.name,
+          email: user.email
+        });
+        this.profilePictureUrl = user.profilePicture || this.defaultProfilePic;  // Set the profile picture URL
       }
-    );
+    });
   }
 
-  // Handle image drop/upload for profile picture
-  onImageDrop(event: any) {
-    const file = event.target.files[0];
+  // Handle file change for profile picture upload
+  onFileChange(event: any): void {
+    this.selectedFile = event.target.files[0];  // Capture the selected file
+  }
 
-    if (file) {
+  // Submit the updated profile info and profile picture
+  onSubmit(): void {
+    if (this.profileForm.valid) {
       const formData = new FormData();
-      formData.append('image', file);
+      formData.append('name', this.profileForm.value.name);
+      formData.append('email', this.profileForm.value.email);
 
-      this.authService.uploadImage(formData).subscribe(
-        (response) => {
-          console.log('Image uploaded successfully:', response);
-          // Optionally, update the user's profile picture URL
-          this.authService.setUser({ ...this.user, profilePicture: response.profilePicture });
+      // If a new profile picture is selected, append it to the formData
+      if (this.selectedFile) {
+        formData.append('profilePicture', this.selectedFile);
+      }
+
+      // Send the updated data to the backend to update the profile
+      this.http.put<any>(`${environment.apiUrl}/auth/update-profile`, formData).subscribe({
+        next: (response) => {
+          // Handle successful profile update
+          this.authService.setUser(response.updatedUser);  // Update user info in AuthService
+          this.profilePictureUrl = response.updatedUser.profilePicture;  // Update profile picture URL
+          console.log('Profile updated successfully', response);
         },
-        (error) => {
-          console.error('Image upload failed:', error);
+        error: (error) => {
+          console.error('Profile update failed', error);
         }
-      );
+      });
     }
+  }
+
+  // Logout method to clear user data and logout the user
+  onLogout(): void {
+    this.authService.logout();  // Call the logout method in your authService
+    this.currentUser = null;  // Clear the current user data
+    console.log('Logged out successfully');
   }
 }

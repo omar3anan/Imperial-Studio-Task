@@ -1,12 +1,22 @@
-<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+<div *ngIf="isAuthenticated; else signUpForm">
+  <div class="profile-card">
+    <h2>Welcome back!</h2>
+    <img [src]="currentUser?.profilePicture" alt="Profile Picture" class="profile-img" />
+
+    <p><strong>Name:</strong> {{ currentUser?.name }}</p>
+    <p><strong>Email:</strong> {{ currentUser?.email }}</p>
+
+    <button (click)="logout()">Logout</button>
+  </div>
+</div>
+
+<ng-template #signUpForm>
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
     <h2>Sign Up</h2>
 
     <div>
       <label for="name">Name:</label>
       <input id="name" type="text" formControlName="name">
-      <div *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
-        Name is required.
-      </div>
     </div>
 
     <div>
@@ -20,12 +30,17 @@
     <div>
       <label for="password">Password:</label>
       <input id="password" type="password" formControlName="password">
-      <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
-        Password is required.
-      </div>
     </div>
 
-    <button type="submit" [disabled]="signupForm.invalid">Sign Up</button>
+    <div>
+      <label for="profilePicture">Profile Picture:</label>
+      <input id="profilePicture" type="file" (change)="onFileChange($event)" accept="image/*" />
+    </div>
+
+    <button type="submit" [disabled]="signupForm.get('email')?.invalid || !signupForm.get('email')?.value">
+      Sign Up
+    </button>
 
     <p>{{ message }}</p>
   </form>
+</ng-template>

@@ -1,23 +1,37 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <h2>Login</h2>
+<!-- Login Form -->
+<div *ngIf="!isAuthenticated; else profileCard">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h2>Login</h2>
 
-  <div>
-    <label for="email">Email:</label>
-    <input id="email" type="email" formControlName="email">
-    <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-      A valid email is required.
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" type="email" formControlName="email">
+      <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        A valid email is required.
+      </div>
     </div>
-  </div>
 
-  <div>
-    <label for="password">Password:</label>
-    <input id="password" type="password" formControlName="password">
-    <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-      Password is required.
+    <div>
+      <label for="password">Password:</label>
+      <input id="password" type="password" formControlName="password">
+      <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        Password is required.
+      </div>
     </div>
+
+    <button type="submit" [disabled]="loginForm.invalid">Login</button>
+
+    <p *ngIf="message" style="color: green;">{{ message }}</p>
+  </form>
+</div>
+
+<!-- Profile Display -->
+<ng-template #profileCard>
+  <div class="profile-card">
+    <h2>Welcome back!</h2>
+    <img [src]="currentUser?.profilePicture" alt="Profile Picture" class="profile-img" />
+    <p><strong>Name:</strong> {{ currentUser?.name }}</p>
+    <p><strong>Email:</strong> {{ currentUser?.email }}</p>
+    <button (click)="logout()">Logout</button>
   </div>
-
-  <button type="submit" [disabled]="loginForm.invalid">Login</button>
-
-  <p>{{ message }}</p>
-</form>
+</ng-template>

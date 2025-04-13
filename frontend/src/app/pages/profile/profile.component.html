@@ -1,31 +1,66 @@
-<div *ngIf="!(user$ | async); else loggedIn">
-  <h2>Login</h2>
-  <form (ngSubmit)="onLogin()">
-    <label for="email">Email:</label>
-    <input type="email" id="email" [(ngModel)]="user.email" name="email" required />
+<div *ngIf="currentUser; else signInPrompt">
+  <div class="profile-card">
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" [(ngModel)]="user.password" name="password" required />
+    <!-- Profile Picture Section -->
+    <div class="profile-picture-container">
+      <img
+        [src]="profilePictureUrl"
+        alt="Profile Picture"
+        class="profile-img"
+      />
 
-    <button type="submit">Login</button>
-  </form>
-  <p>Don't have an account? <a href="/signup">Sign Up</a></p>
-</div>
-
-<ng-template #loggedIn>
-  <div class="profile-container">
-    <h2>Welcome, {{ (user$ | async)?.name }}</h2>
-
-    <!-- Profile Image -->
-    <div class="profile-picture">
-      <img [src]="(user$ | async)?.profilePicture || 'default-profile-picture.jpg'" alt="Profile Picture" width="150" height="150"/>
-
-      <!-- Image Upload -->
-      <input type="file" (change)="onImageDrop($event)" />
+      <input
+        type="file"
+        id="upload-profile-pic"
+        (change)="onFileChange($event)"
+        accept="image/*"
+        hidden
+      />
+      <label for="upload-profile-pic" class="upload-btn">
+        Change Profile Picture
+      </label>
     </div>
 
-    <p>Email: {{ (user$ | async)?.email }}</p>
+    <!-- Profile Form -->
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          placeholder="Enter your name"
+        />
+      </div>
 
-    <button (click)="authService.logout()">Logout</button>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+        />
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="profileForm.invalid"
+        class="submit-btn"
+      >
+        Update Profile
+      </button>
+    </form>
+
+    <!-- Logout Button -->
+    <button (click)="onLogout()" class="logout-btn">
+      Logout
+    </button>
+  </div>
+</div>
+
+<ng-template #signInPrompt>
+  <div class="message-card">
+    <p>Please sign in to view and update your profile.</p>
   </div>
 </ng-template>
