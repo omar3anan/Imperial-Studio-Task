@@ -1,1 +1,31 @@
-<p>profile works!</p>
+<div *ngIf="!(user$ | async); else loggedIn">
+  <h2>Login</h2>
+  <form (ngSubmit)="onLogin()">
+    <label for="email">Email:</label>
+    <input type="email" id="email" [(ngModel)]="user.email" name="email" required />
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" [(ngModel)]="user.password" name="password" required />
+
+    <button type="submit">Login</button>
+  </form>
+  <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+</div>
+
+<ng-template #loggedIn>
+  <div class="profile-container">
+    <h2>Welcome, {{ (user$ | async)?.name }}</h2>
+
+    <!-- Profile Image -->
+    <div class="profile-picture">
+      <img [src]="(user$ | async)?.profilePicture || 'default-profile-picture.jpg'" alt="Profile Picture" width="150" height="150"/>
+
+      <!-- Image Upload -->
+      <input type="file" (change)="onImageDrop($event)" />
+    </div>
+
+    <p>Email: {{ (user$ | async)?.email }}</p>
+
+    <button (click)="authService.logout()">Logout</button>
+  </div>
+</ng-template>

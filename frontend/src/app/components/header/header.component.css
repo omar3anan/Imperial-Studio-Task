@@ -1,72 +1,124 @@
-/* header.component.css */
-/* Navigation Header Styles */
+/* ---------------------------- */
+/* Navigation Header Styles     */
+/* ---------------------------- */
 .nav {
-  background-color: #4a90e2;
-  padding: 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 1rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
+/* Logo / Brand Name */
+.nav .logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #d8b4ff;
+  text-shadow: 0 0 10px rgba(216, 180, 255, 0.4);
+}
+
+/* Nav Links */
 .nav a {
-  color: white;
+  color: #ffffff;
   text-decoration: none;
   margin-right: 1.5rem;
   font-size: 1.1rem;
-  transition: color 0.3s ease;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .nav a:hover,
 .nav a.active {
   color: #ffeb3b;
+  transform: scale(1.05);
 }
 
-/* Dropdown for Profile */
+/* ---------------------------- */
+/* Profile Dropdown             */
+/* ---------------------------- */
 .dropdown {
   position: relative;
   display: inline-block;
 }
 
 .profile-icon {
-  background-color: #fff;
+  background: linear-gradient(145deg, #8a2be2, #4b0082);
+  color: white;
   border: none;
   border-radius: 50%;
   font-size: 1.2rem;
-  padding: 0.5rem 0.7rem;
+  padding: 0.6rem 0.8rem;
   cursor: pointer;
-  transition: box-shadow 0.3s;
+  box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .profile-icon:hover {
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(138, 43, 226, 0.8);
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
   right: 0;
-  background-color: #fff;
-  min-width: 150px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
+  background-color: rgba(28, 28, 30, 0.9);
+  min-width: 160px;
+  border-radius: 10px;
   overflow: hidden;
   z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .dropdown-content a {
-  color: #333;
-  padding: 0.8rem 1rem;
+  color: #eaeaea;
+  padding: 0.9rem 1.2rem;
   text-decoration: none;
   display: block;
+  font-weight: 500;
   transition: background-color 0.3s ease;
 }
 
 .dropdown-content a:hover {
-  background-color: #f1f1f1;
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* Show dropdown on hover */
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+/* ---------------------------- */
+/* Wishlist Icon Styles        */
+/* ---------------------------- */
+.wishlist-icon {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.wishlist-icon.filled {
+  color: red;
+}
+
+.wishlist-icon:hover {
+  transform: scale(1.1);
+}
+
+/* ---------------------------- */
+/* Icons Container (Right-aligned) */
+/* ---------------------------- */
+.icons-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }

@@ -1,15 +1,23 @@
 <nav class="nav">
-  <!-- Proper routerLink usage -->
+  <!-- Proper routerLink usage with Heart Icon as logo for wishlist -->
   <a routerLink="/products" routerLinkActive="active">Products</a>
-  <a routerLink="/wishlist" routerLinkActive="active">❤️ Wishlist</a>
+  <!-- <a routerLink="/wishlist" routerLinkActive="active">
+    <span class="wishlist-logo">❤️</span> Wishlist
+  </a> -->
 
-  <!-- Profile Dropdown -->
-  <div class="dropdown">
-    <a routerLink="/profile" routerLinkActive="active"><button class="profile-icon">👤</button></a>
-    <div class="dropdown-content">
-      <!-- <a routerLink="/profile" routerLinkActive="active">Profile</a> -->
-      <a routerLink="/login" routerLinkActive="active">Login</a>
-      <a routerLink="/signup" routerLinkActive="active">Signup</a>
+  <!-- Profile Icon and Wishlist Icon (both aligned to the right) -->
+  <div class="icons-right">
+    <a routerLink="/wishlist" routerLinkActive="active">
+      <span class="wishlist-logo">❤️</span> Wishlist
+    </a>
+    <div class="dropdown">
+      <a routerLink="/profile" routerLinkActive="active">
+        <button class="profile-icon">👤</button>
+      </a>
+      <div class="dropdown-content">
+        <a routerLink="/login" routerLinkActive="active">Login</a>
+        <a routerLink="/signup" routerLinkActive="active">Signup</a>
+      </div>
     </div>
   </div>
 </nav>
