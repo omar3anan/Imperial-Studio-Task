@@ -1,82 +1,65 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  styleUrls: ['./signup.component.css'] // Optional: include for custom styles if needed
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit {
   signupForm: FormGroup;
-  message: string = '';
-  selectedFile: File | null = null;
-  isAuthenticated: boolean = false;
-  currentUser: any = null;
+  error: string | null = null;
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
+    // Initialize the form inside the constructor
     this.signupForm = this.fb.group({
-      name: [''],
+      name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: [''],
-      profilePicture: [null]
+      password: ['', Validators.required]
     });
-
-    const storedUser = localStorage.getItem('user');
-    this.isAuthenticated = !!storedUser;
-
-    if (this.isAuthenticated && storedUser) {
-      this.currentUser = JSON.parse(storedUser);
-    }
   }
 
-  onFileChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input?.files?.length) {
-      this.selectedFile = input.files[0];
+  ngOnInit(): void {
+    // Check if the user is already authorised.
+    if (localStorage.getItem('isAuthorised') === 'true') {
+      this.router.navigate(['/profile']);
     }
   }
 
   onSubmit(): void {
-    if (this.signupForm.valid && this.selectedFile) {
-      const formData = new FormData();
-      const { name, email, password } = this.signupForm.value;
+    if (this.signupForm.valid) {
+      // Using non-null assertions to ensure the values are non-null when the form is valid
+      const formValue = {
+        name: this.signupForm.value.name!,
+        email: this.signupForm.value.email!,
+        password: this.signupForm.value.password!
+      };
 
-      formData.append('name', name || '');
-      formData.append('email', email);
-      formData.append('password', password || '');
-      formData.append('profilePicture', this.selectedFile);
-
-      this.authService.register(formData).subscribe({
+      this.authService.register(formValue).subscribe({
         next: (response) => {
-          this.message = 'Signup successful!';
-          console.log('Signup response:', response);
-          localStorage.setItem('user', JSON.stringify(response));
-          this.isAuthenticated = true;
-          this.currentUser = response;
+          console.log('User registered successfully:', response);
+          // Set flag to indicate user is authorised
+          localStorage.setItem('isAuthorised', 'true');
+          // Automatically navigate to the profile page after successful registration.
+          this.router.navigate(['/profile']);
         },
         error: (err) => {
-          this.message = 'Signup failed. Please try again.';
-          console.error('Signup error:', err);
+          console.error('Registration error:', err);
+          this.error = err.error?.message || 'Registration failed. Please try again.';
         }
       });
     } else {
-      this.message = 'Please fill out the form and upload a profile picture.';
+      // Mark all controls as touched to trigger validation messages for the user
+      this.signupForm.markAllAsTouched();
     }
-  }
-
-  // ✅ Define logout method
-  logout(): void {
-    localStorage.removeItem('user');
-    this.isAuthenticated = false;
-    this.currentUser = null;
   }
 }

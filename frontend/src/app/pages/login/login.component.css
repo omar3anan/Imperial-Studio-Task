@@ -1,95 +1,71 @@
-/* ---------------------------- */
-/* Beautiful Glassy Login Form */
-/* ---------------------------- */
-form {
-  max-width: 420px;
-  margin: 4rem auto;
-  padding: 2.5rem;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #eee;
-}
-
-/* ---------------------------- */
-/* Form Heading                 */
-/* ---------------------------- */
-form h2 {
-  margin-bottom: 1.8rem;
-  text-align: center;
-  font-size: 1.8rem;
-  color: #d8b4ff;
-  text-shadow: 0 0 10px rgba(216, 180, 255, 0.4);
-}
-
-/* ---------------------------- */
-/* Input Fields                 */
-/* ---------------------------- */
-form div {
-  margin-bottom: 1.2rem;
-}
-
-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #f1e4ff;
-}
-
-form input[type="email"],
-form input[type="password"],
-form input[type="text"] {
-  width: 100%;
-  padding: 0.9rem 1rem;
-  background: rgba(255, 255, 255, 0.07);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+/* Container styling for the login form */
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  background: #f7f7f7;
+  padding: 25px;
   border-radius: 8px;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-  font-size: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-form input:focus {
-  border-color: #bb86fc;
-  background-color: rgba(255, 255, 255, 0.1);
-  outline: none;
+/* Header styling */
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
 }
 
-/* ---------------------------- */
-/* Button                       */
-/* ---------------------------- */
-form button {
-  width: 100%;
-  padding: 0.9rem;
-  background: linear-gradient(145deg, #8a2be2, #4b0082);
-  border: none;
-  border-radius: 10px;
-  color: white;
-  font-size: 1.1rem;
+/* Form group container */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Label styling */
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
   font-weight: bold;
+  color: #444;
+}
+
+/* Input styling */
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Button styling */
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-form button:hover:not(:disabled) {
-  background-color: #6a1b9a;
-  transform: scale(1.02);
-}
-
-form button:disabled {
-  background-color: #5c5c5c;
+/* Disabled button style */
+button:disabled {
+  background-color: #cccccc;
   cursor: not-allowed;
 }
 
-/* ---------------------------- */
-/* Error Message                */
-/* ---------------------------- */
-form p {
+/* Inline error messages */
+.error {
+  color: #cc0000;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+/* Global error message styling */
+.error-message {
+  color: red;
   text-align: center;
-  margin-top: 1.2rem;
-  color: #ff6b6b;
-  font-weight: 500;
+  margin-top: 15px;
 }

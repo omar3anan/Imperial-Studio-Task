@@ -1,75 +1,83 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import { environment } from '../../environments/environments';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
-export interface User {
-  name: string;
-  email: string;
-  token?: string;
-  profilePicture?: string;
-  password?: string;
+interface RegisterResponse {
+  message: string;
+  token: string;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+  };
+}
+
+interface LoginResponse {
+  message: string;
+  token: string;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+  };
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'  // Singleton service provided in the root
 })
 export class AuthService {
-  private _userSubject = new BehaviorSubject<User | null>(null);
-  public user$: Observable<User | null> = this._userSubject.asObservable();
-
-  private apiUrl = `${environment.apiUrl}/auth/register`;
-  private uploadUrl = `${environment.apiUrl}/auth/upload`;
+  // Base URL for the auth endpoints
+  private baseUrl: string = 'http://localhost:3000/auth';
 
   constructor(private http: HttpClient) {}
 
-  /** Register user with profile picture */
-  register(userData: FormData): Observable<any> {
-    return this.http.post<any>(this.apiUrl, userData).pipe(
-      catchError(error => {
-        console.error('Registration failed', error);
-        throw error;
-      })
-    );
+  /**
+   * Sends a registration request to the back-end.
+   *
+   * @param user - An object containing name, email, and password.
+   * @returns An Observable that emits the server's response.
+   */
+  register(user: { name: string; email: string; password: string }): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.baseUrl}/register`, user)
+      .pipe(
+        tap(response => {
+          // After a successful registration, save token and user ID in localStorage
+          if (response.token && response.user?.id) {
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('userId', response.user.id.toString());
+          }
+        })
+      );
   }
 
-  /** Upload profile picture to AWS S3 or your server */
-  uploadImage(formData: FormData): Observable<any> {
-    return this.http.post<any>(this.uploadUrl, formData).pipe(
-      catchError(error => {
-        console.error('Image upload failed', error);
-        throw error;
-      })
-    );
+  /**
+   * Sends a login request to the back-end.
+   *
+   * @param credentials - An object containing email and password.
+   * @returns An Observable that emits the server's response.
+   */
+  login(credentials: { email: string; password: string }): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.baseUrl}/login`, credentials)
+      .pipe(
+        tap(response => {
+          // After a successful login, save token and user ID in localStorage
+          if (response.token && response.user?.id) {
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('userId', response.user.id.toString());
+          }
+        })
+      );
   }
 
-  /** Logout user and clear storage */
-  logout(): void {
-    this._userSubject.next(null);
-    localStorage.removeItem('user');
-    localStorage.removeItem('token'); // Optional if you store token separately
-  }
+  /**
+   * Logs out the user by removing auth data from localStorage.
+   */
+//   logout(): void {
+//     localStorage.removeItem('token');
+//     localStorage.removeItem('userId');
+//     localStorage.removeItem('isAuthorised');
 
-  /** Set user after login or registration */
-  setUser(user: User): void {
-    this._userSubject.next(user);
-    localStorage.setItem('user', JSON.stringify(user));
-    if (user.token) {
-      localStorage.setItem('token', user.token);
-    }
-  }
-
-  /** Load user on app init */
-  loadUserFromLocalStorage(): void {
-    const user = localStorage.getItem('user');
-    if (user) {
-      this.setUser(JSON.parse(user));
-    }
-  }
-
-  /** Check if user is authenticated */
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem('user');
-  }
+//   }
+// }
 }

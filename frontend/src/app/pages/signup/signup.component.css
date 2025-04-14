@@ -1,152 +1,71 @@
-/* ---------------------------- */
-/* Beautiful Glassy Login Form  */
-/* ---------------------------- */
-form {
+/* Container styling for the signup form */
+.signup-container {
   max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #eee;
-  transition: transform 0.3s ease-in-out;
-}
-
-/* ---------------------------- */
-/* Form Heading                 */
-/* ---------------------------- */
-form h2 {
-  margin-bottom: 1.5rem;
-  text-align: center;
-  font-size: 2rem;
-  color: #d8b4ff;
-  font-weight: 600;
-  text-transform: uppercase;
-  text-shadow: 0 0 10px rgba(216, 180, 255, 0.4);
-}
-
-/* ---------------------------- */
-/* Form Field Styling           */
-/* ---------------------------- */
-.form-field {
-  margin-bottom: 1.5rem;
-}
-
-.form-field label {
-  display: block;
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  color: #f1e4ff;
-}
-
-input {
-  width: 100%;
-  padding: 0.8rem;
-  margin-top: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 50px auto;
+  background: #f7f7f7;
+  padding: 25px;
   border-radius: 8px;
-  font-size: 1rem;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.07);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Focused input */
-input:focus {
-  border-color: #bb86fc;
-  outline: none;
-  box-shadow: 0 0 8px rgba(187, 134, 252, 0.3);
+/* Header styling */
+.signup-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
 }
 
-/* ---------------------------- */
-/* Error Message Styling        */
-/* ---------------------------- */
-.error-message {
-  color: #e53935;
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
-  font-weight: 500;
+/* Form group container */
+.form-group {
+  margin-bottom: 15px;
 }
 
-/* ---------------------------- */
-/* Submit Button Styling        */
-/* ---------------------------- */
+/* Label styling */
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #444;
+}
+
+/* Input styling */
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Button styling */
 button {
   width: 100%;
-  padding: 1rem;
-  background: linear-gradient(145deg, #8a2be2, #4b0082);
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: #fff;
   border: none;
-  border-radius: 10px;
-  color: white;
-  font-size: 1.2rem;
+  border-radius: 4px;
+  font-size: 16px;
   cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* Disabled button style */
 button:disabled {
-  background-color: #5c5c5c;
+  background-color: #cccccc;
   cursor: not-allowed;
 }
 
-button:hover:not(:disabled) {
-  background-color: #6a1b9a;
-  transform: scale(1.05);
+/* Inline error messages */
+.error {
+  color: #cc0000;
+  font-size: 0.9em;
+  margin-top: 5px;
 }
 
-/* ---------------------------- */
-/* Success/Failure Message      */
-/* ---------------------------- */
-.message {
+/* Global error message styling */
+.error-message {
+  color: red;
   text-align: center;
-  margin-top: 1.5rem;
-  font-size: 1rem;
-  color: #d32f2f;
-  font-weight: 500;
-  padding: 0.5rem;
-  border-radius: 4px;
-  background-color: #f8d7da;
-}
-
-.message.success {
-  color: #388e3c;
-  background-color: #e8f5e9;
-}
-
-.message.error {
-  color: #d32f2f;
-  background-color: #f8d7da;
-}
-
-/* ---------------------------- */
-/* Input container animation    */
-/* ---------------------------- */
-form:hover {
-  transform: scale(1.02);
-}
-
-/* ---------------------------- */
-/* Styling for Remember Me Checkbox and Forgot Password Link */
-/* ---------------------------- */
-.checkbox-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.checkbox-container input {
-  margin-right: 0.5rem;
-}
-
-.forgot-password {
-  font-size: 0.875rem;
-  color: #4a90e2;
-  text-decoration: none;
-}
-
-.forgot-password:hover {
-  text-decoration: underline;
+  margin-top: 15px;
 }

@@ -1,46 +1,52 @@
-<div *ngIf="isAuthenticated; else signUpForm">
-  <div class="profile-card">
-    <h2>Welcome back!</h2>
-    <img [src]="currentUser?.profilePicture" alt="Profile Picture" class="profile-img" />
-
-    <p><strong>Name:</strong> {{ currentUser?.name }}</p>
-    <p><strong>Email:</strong> {{ currentUser?.email }}</p>
-
-    <button (click)="logout()">Logout</button>
-  </div>
-</div>
-
-<ng-template #signUpForm>
+<div class="signup-container">
+  <h2>Sign Up</h2>
   <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-    <h2>Sign Up</h2>
-
-    <div>
-      <label for="name">Name:</label>
-      <input id="name" type="text" formControlName="name">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        placeholder="Enter your name"
+        required
+      />
+      <div *ngIf="signupForm.controls['name'].invalid && signupForm.controls['name'].touched" class="error">
+        Name is required.
+      </div>
     </div>
 
-    <div>
-      <label for="email">Email:</label>
-      <input id="email" type="email" formControlName="email">
-      <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        placeholder="Enter your email"
+        required
+      />
+      <div *ngIf="signupForm.controls['email'].invalid && signupForm.controls['email'].touched" class="error">
         A valid email is required.
       </div>
     </div>
 
-    <div>
-      <label for="password">Password:</label>
-      <input id="password" type="password" formControlName="password">
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        placeholder="Enter your password"
+        required
+      />
+      <div *ngIf="signupForm.controls['password'].invalid && signupForm.controls['password'].touched" class="error">
+        Password is required.
+      </div>
     </div>
 
-    <div>
-      <label for="profilePicture">Profile Picture:</label>
-      <input id="profilePicture" type="file" (change)="onFileChange($event)" accept="image/*" />
+    <button type="submit" [disabled]="signupForm.invalid">Sign Up</button>
+
+    <div *ngIf="error" class="error-message">
+      {{ error }}
     </div>
-
-    <button type="submit" [disabled]="signupForm.get('email')?.invalid || !signupForm.get('email')?.value">
-      Sign Up
-    </button>
-
-    <p>{{ message }}</p>
   </form>
-</ng-template>
+</div>

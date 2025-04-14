@@ -79,9 +79,9 @@
 /* ------------------------------ */
 .wishlist-icon {
   position: absolute;
-  top: 16px;
+  bottom: 16px;
   right: 16px;
-  font-size: 1.5rem;
+  font-size: 3.5rem;
   cursor: pointer;
   transition: transform 0.2s ease, color 0.3s ease;
   color: #ff79c6;

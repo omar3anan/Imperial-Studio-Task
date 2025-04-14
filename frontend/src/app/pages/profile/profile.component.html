@@ -1,66 +1,66 @@
-<div *ngIf="currentUser; else signInPrompt">
-  <div class="profile-card">
+<div class="profile-container" *ngIf="!loading">
+  <!-- Display error if any -->
+  <div *ngIf="error" class="error-message">{{ error }}</div>
 
-    <!-- Profile Picture Section -->
-    <div class="profile-picture-container">
-      <img
-        [src]="profilePictureUrl"
-        alt="Profile Picture"
-        class="profile-img"
-      />
+  <!-- Profile Details -->
+  <div *ngIf="profile" class="profile-card">
+    <h2>Welcome, {{ profile.name }}</h2>
+    <p>Email: {{ profile.email }}</p>
 
-      <input
-        type="file"
-        id="upload-profile-pic"
-        (change)="onFileChange($event)"
-        accept="image/*"
-        hidden
-      />
-      <label for="upload-profile-pic" class="upload-btn">
-        Change Profile Picture
-      </label>
+    <!-- Profile Picture -->
+    <div class="profile-picture">
+      <img *ngIf="profile.profile_picture; else noPic" [src]="profile.profile_picture" alt="Profile Picture" />
+      <ng-template #noPic>
+        <div class="default-icon">
+          <i class="fa fa-user-circle fa-5x"></i>
+          <p>No profile picture available.</p>
+        </div>
+
+      </ng-template>
     </div>
 
-    <!-- Profile Form -->
-    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
-      <div class="form-group">
-        <label for="name">Name:</label>
-        <input
-          id="name"
-          type="text"
-          formControlName="name"
-          placeholder="Enter your name"
-        />
-      </div>
+    <!-- Upload New Profile Picture -->
+    <div class="upload-section">
+      <label for="profilePicture" class="upload-label">Upload Profile Picture</label>
+      <input type="file" id="profilePicture" (change)="onUploadProfilePicture($event)" />
+    </div>
 
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input
-          id="email"
-          type="email"
-          formControlName="email"
-          placeholder="Enter your email"
-        />
-      </div>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
 
-      <button
-        type="submit"
-        [disabled]="profileForm.invalid"
-        class="submit-btn"
-      >
-        Update Profile
-      </button>
-    </form>
+  <!-- Wishlist Section -->
+</div>
+<div class="wishlist-wrapper">
+  <h3>Your Wishlist</h3>
 
-    <!-- Logout Button -->
-    <button (click)="onLogout()" class="logout-btn">
-      Logout
-    </button>
+  <!-- Wishlist Loading -->
+  <div *ngIf="wishlistLoading" class="loading-spinner">
+    <p>Loading wishlist...</p>
+  </div>
+
+  <!-- Wishlist Error -->
+  <div *ngIf="wishlistError" class="error-message">
+    <p>{{ wishlistError }}</p>
+  </div>
+
+  <!-- Wishlist Items -->
+  <div class="wishlist-container" *ngIf="!wishlistLoading && !wishlistError && wishlistItems.length > 0">
+    <div class="wishlist-card" *ngFor="let item of wishlistItems">
+      <img [src]="item.image_url || 'https://via.placeholder.com/150?text=Product'" alt="{{ item.name }}" />
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.description }}</p>
+      <strong>${{ item.price }}</strong>
+      <button (click)="removeFromWishlist(item)">Remove</button>
+    </div>
+  </div>
+
+  <!-- Empty Wishlist -->
+  <div *ngIf="!wishlistLoading && !wishlistError && wishlistItems.length === 0">
+    <p>Your wishlist is empty.</p>
   </div>
 </div>
 
-<ng-template #signInPrompt>
-  <div class="message-card">
-    <p>Please sign in to view and update your profile.</p>
-  </div>
-</ng-template>
+<!-- Global Loading -->
+<div *ngIf="loading">
+  <p>Loading profile...</p>
+</div>

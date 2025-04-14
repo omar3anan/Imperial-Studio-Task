@@ -6,7 +6,7 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: white;
   position: relative;
-  height: 100vh;
+  height: 200vh;
   overflow-x: hidden;
   background: linear-gradient(to bottom, #8a2be2 0%, #3c1361 40%, #000000 85%, #000000 100%);
 }
@@ -18,7 +18,7 @@ body::after {
   top: 0;
   left: 0;
   width: 200%;
-  height: 200%;
+  height: 400%;
   background: radial-gradient(circle at 30% 20%, #9f5de2 15%, transparent 55%),
               radial-gradient(circle at 60% 90%, #000000 35%, #000000 50%, transparent 80%);
   filter: blur(120px);

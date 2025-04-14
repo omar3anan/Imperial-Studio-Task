@@ -1,36 +1,56 @@
 const express = require('express');
-const multer = require('multer'); // Import multer for file handling
-const cors = require('cors'); // Import the cors package
+const multer = require('multer');
+const cors = require('cors');
+const path = require('path');
+const dotenv = require('dotenv');
 
+// Import routes
 const authRoutes = require('./routes/authRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const productRoutes = require('./routes/productRoutes');
+const userRoutes = require('./routes/userRoutes');
+
+dotenv.config();
 
 const app = express();
 
 // Middleware
-app.use(express.json()); // Built-in Express JSON parser
-app.use(cors({ origin: 'http://localhost:4200' })); // Allow requests from http://localhost:4200
+app.use(express.json());
 
-// Set up multer for file upload handling
+// CORS Configuration
+const corsOptions = {
+  origin: 'http://localhost:4200', // Angular frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions)); // Applying CORS configuration
+
+// Serve uploaded images statically
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Multer setup for profile picture uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Define upload folder
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname); // Give the uploaded file a unique name
-  }
+    cb(null, Date.now() + '-' + file.originalname);
+  },
 });
+const upload = multer({ storage });
 
-const upload = multer({ storage }); // Initialize multer with the defined storage settings
+// Attach multer to app (optional: if you want to access it in routes via app.get('upload'))
+app.set('upload', upload);
 
 // Routes
-app.use('/auth', upload.single('profilePicture'), authRoutes); // Use multer for single file upload on auth routes
+app.use('/auth', authRoutes);
 app.use('/cart', cartRoutes);
 app.use('/products', productRoutes);
+app.use('/users', userRoutes);
 
-// Start the server
-const PORT = 3000;
+// Start server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

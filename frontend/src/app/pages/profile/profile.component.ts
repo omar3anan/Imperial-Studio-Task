@@ -1,81 +1,94 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService, User } from '../../services/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environments';
+import { Router, RouterModule } from '@angular/router';
+
+import { ProfileService, Profile } from '../../services/profile.service';
+import { WishlistService } from '../../services/wishlist.service';
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],  // Import necessary modules here
+  imports: [CommonModule, RouterModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  profileForm: FormGroup;
-  currentUser: User | null = null;
-  selectedFile: File | null = null;
-  profilePictureUrl: string | undefined;
-  defaultProfilePic = 'path/to/default/profile/pic.png';  // Add a default profile picture URL if no profile picture
+  profile: Profile | null = null;
+  error: string | null = null;
+  loading: boolean = true;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private http: HttpClient) {
-    this.profileForm = this.fb.group({
-      name: [''],
-      email: ['']
-    });
-  }
+  // Wishlist-related variables
+  wishlistItems: Product[] = [];
+  wishlistLoading: boolean = true;
+  wishlistError: string = '';
+
+  constructor(
+    private profileService: ProfileService,
+    private wishlistService: WishlistService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // Subscribe to the user observable to get the current user info
-    this.authService.user$.subscribe(user => {
-      this.currentUser = user;
-      if (user) {
-        this.profileForm.patchValue({
-          name: user.name,
-          email: user.email
-        });
-        this.profilePictureUrl = user.profilePicture || this.defaultProfilePic;  // Set the profile picture URL
+    const userIdStr = localStorage.getItem('userId');
+    if (!userIdStr) {
+      this.error = 'User is not logged in.';
+      this.loading = false;
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    const userId = parseInt(userIdStr, 10);
+
+    // Fetch profile
+    this.profileService.getProfile(userId).subscribe({
+      next: (profileData) => {
+        this.profile = profileData;
+        this.loading = false;
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Failed to load profile';
+        this.loading = false;
       }
     });
+
+    // Load wishlist
+    try {
+      this.wishlistItems = this.wishlistService.getWishlistItems();
+      this.wishlistLoading = false;
+    } catch (error) {
+      this.wishlistError = 'Failed to load wishlist';
+      this.wishlistLoading = false;
+    }
   }
 
-  // Handle file change for profile picture upload
-  onFileChange(event: any): void {
-    this.selectedFile = event.target.files[0];  // Capture the selected file
-  }
-
-  // Submit the updated profile info and profile picture
-  onSubmit(): void {
-    if (this.profileForm.valid) {
-      const formData = new FormData();
-      formData.append('name', this.profileForm.value.name);
-      formData.append('email', this.profileForm.value.email);
-
-      // If a new profile picture is selected, append it to the formData
-      if (this.selectedFile) {
-        formData.append('profilePicture', this.selectedFile);
-      }
-
-      // Send the updated data to the backend to update the profile
-      this.http.put<any>(`${environment.apiUrl}/auth/update-profile`, formData).subscribe({
+  onUploadProfilePicture(event: any): void {
+    const file: File = event.target.files[0];
+    const userIdStr = localStorage.getItem('userId');
+    if (file && userIdStr) {
+      const userId = parseInt(userIdStr, 10);
+      this.profileService.uploadProfilePicture(userId, file).subscribe({
         next: (response) => {
-          // Handle successful profile update
-          this.authService.setUser(response.updatedUser);  // Update user info in AuthService
-          this.profilePictureUrl = response.updatedUser.profilePicture;  // Update profile picture URL
-          console.log('Profile updated successfully', response);
+          console.log('Upload successful:', response);
+          this.profile!.profile_picture = response.profilePicture; // immediate UI update
         },
-        error: (error) => {
-          console.error('Profile update failed', error);
+        error: (err) => {
+          this.error = err.error?.message || 'Failed to upload profile picture';
         }
       });
     }
   }
 
-  // Logout method to clear user data and logout the user
-  onLogout(): void {
-    this.authService.logout();  // Call the logout method in your authService
-    this.currentUser = null;  // Clear the current user data
-    console.log('Logged out successfully');
+
+  removeFromWishlist(product: Product): void {
+    this.wishlistService.removeFromWishlist(product.id);
+    this.wishlistItems = this.wishlistService.getWishlistItems();
+  }
+
+  logout(): void {
+    localStorage.removeItem('isAuthorised');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 }
