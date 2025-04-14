@@ -30,7 +30,8 @@ const uploadToS3 = async (file) => {
 
     const command = new PutObjectCommand(uploadParams);
     await s3.send(command);
-    return `https://${process.env.S3_BUCKET_NAME}.s3.amazonaws.com/${uploadParams.Key}`;
+    // In your backend code (uploadToS3 function)
+    return `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${uploadParams.Key}`;
   } catch (error) {
     console.error('S3 Upload Error:', error);
     throw new Error('File upload failed');

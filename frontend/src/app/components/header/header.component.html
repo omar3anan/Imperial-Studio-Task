@@ -1,20 +1,35 @@
 <nav class="nav">
-  <!-- Proper routerLink usage with Heart Icon as logo for wishlist -->
+  <!-- Products Link -->
   <a routerLink="/products" routerLinkActive="active">Products</a>
-  <!-- <a routerLink="/wishlist" routerLinkActive="active">
-    <span class="wishlist-logo">❤️</span> Wishlist
-  </a> -->
 
-  <!-- Profile Icon and Wishlist Icon (both aligned to the right) -->
+  <!-- Profile Icon and Wishlist Icon (aligned to the right) -->
   <div class="icons-right">
+    <!-- Wishlist Icon -->
     <a routerLink="/wishlist" routerLinkActive="active">
       <span class="wishlist-logo">❤️</span> Wishlist
     </a>
+
+    <!-- Profile Dropdown -->
     <div class="dropdown">
-      <a routerLink="/profile" routerLinkActive="active">
-        <button class="profile-icon">👤</button>
-      </a>
+      <!-- Profile Picture or Default Icon -->
+      <button class="profile-icon">
+        <ng-container *ngIf="profile?.profile_picture; else defaultIcon">
+          <img
+            [src]="profile?.profile_picture"
+            alt="Profile"
+            class="rounded-circle"
+            width="40"
+            height="40"
+          />
+        </ng-container>
+        <ng-template #defaultIcon>
+          👤
+        </ng-template>
+      </button>
+
+      <!-- Dropdown Content -->
       <div class="dropdown-content">
+        <a routerLink="/profile" routerLinkActive="active">Profile</a>
         <a routerLink="/login" routerLinkActive="active">Login</a>
         <a routerLink="/signup" routerLinkActive="active">Signup</a>
       </div>
