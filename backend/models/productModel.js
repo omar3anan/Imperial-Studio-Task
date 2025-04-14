@@ -1,3 +1,4 @@
+// models/productModel.js
 const db = require('../config/db');
 
 const Product = {
@@ -12,6 +13,10 @@ const Product = {
     },
     findById: (id, callback) => {
         const sql = 'SELECT * FROM products WHERE id = ?';
+        db.query(sql, [id], callback);
+    },
+    deleteById: (id, callback) => {
+        const sql = 'DELETE FROM products WHERE id = ?';
         db.query(sql, [id], callback);
     }
 };

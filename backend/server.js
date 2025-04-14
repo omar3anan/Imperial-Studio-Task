@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
-const cartRoutes = require('./routes/cartRoutes');
+
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const wishlistRoutes = require('./routes/wishlistRoutes'); // added wishlist routes
@@ -46,7 +46,6 @@ app.set('upload', upload);
 
 // Routes
 app.use('/auth', authRoutes);
-app.use('/cart', cartRoutes);
 app.use('/products', productRoutes);
 app.use('/users', userRoutes);
 app.use('/wishlist', wishlistRoutes); // mount wishlist routes
