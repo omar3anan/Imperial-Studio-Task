@@ -1,14 +1,3 @@
-<!-- Loading Spinner -->
-<div *ngIf="loading" class="loading-spinner">
-  <p>Loading products...</p>
-</div>
-
-<!-- Error Message -->
-<div *ngIf="errorMessage" class="error-message">
-  <p>{{ errorMessage }}</p>
-</div>
-
-<!-- Products List -->
 <div class="products-container" *ngIf="!loading && !errorMessage">
   <div class="product-card" *ngFor="let product of products">
     <img [src]="product.image_url" alt="{{ product.name }}" />
@@ -21,10 +10,7 @@
       class="wishlist-icon"
       [class.filled]="isInWishlist(product)"
       (click)="toggleWishlist(product)">
-      {{ isInWishlist(product) ? '♥' : '♡' }}
+      {{ isInWishlist(product) ? '♥' : '♡' }} <!-- Heart icon changes based on wishlist status -->
     </span>
   </div>
 </div>
-
-<!-- Wishlist Page Link -->
-<button (click)="goToWishlist()">Go to Wishlist</button>

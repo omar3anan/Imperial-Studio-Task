@@ -1,14 +1,3 @@
-<!-- Wishlist Loading Spinner -->
-<div *ngIf="wishlistLoading" class="loading-spinner">
-  <p>Loading wishlist...</p>
-</div>
-
-<!-- Wishlist Error Message -->
-<div *ngIf="wishlistError" class="error-message">
-  <p>{{ wishlistError }}</p>
-</div>
-
-<!-- Wishlist Cards -->
 <div class="wishlist-container" *ngIf="!wishlistLoading && !wishlistError && wishlistItems.length > 0">
   <div class="wishlist-card" *ngFor="let item of wishlistItems">
     <img [src]="item.image_url" alt="{{ item.name }}" />
@@ -19,9 +8,4 @@
     <!-- Remove From Wishlist Button -->
     <button (click)="removeFromWishlist(item)">Remove</button>
   </div>
-</div>
-
-<!-- Empty Wishlist Message -->
-<div *ngIf="!wishlistLoading && !wishlistError && wishlistItems.length === 0">
-  <p>Your wishlist is empty.</p>
 </div>

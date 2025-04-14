@@ -31,35 +31,7 @@
   </div>
 </div>
 
-<!-- Wishlist Section -->
-<div class="wishlist-wrapper">
-  <h3>Your Wishlist</h3>
 
-  <!-- Wishlist States -->
-  <div *ngIf="wishlistLoading" class="loading-spinner">
-    <p>Loading wishlist...</p>
-  </div>
-
-  <div *ngIf="wishlistError" class="error-message">
-    <p>{{ wishlistError }}</p>
-  </div>
-
-  <!-- Wishlist Items -->
-  <div *ngIf="!wishlistLoading && !wishlistError && wishlistItems.length > 0" class="wishlist-container">
-    <div class="wishlist-card" *ngFor="let item of wishlistItems">
-      <img [src]="item.image_url || 'https://via.placeholder.com/150?text=Product'" alt="{{ item.name }}" />
-      <h3>{{ item.name }}</h3>
-      <p>{{ item.description }}</p>
-      <strong>${{ item.price }}</strong>
-      <button (click)="removeFromWishlist(item)">Remove</button>
-    </div>
-  </div>
-
-  <!-- Empty Wishlist -->
-  <div *ngIf="!wishlistLoading && !wishlistError && wishlistItems.length === 0">
-    <p>Your wishlist is empty.</p>
-  </div>
-</div>
 
 <!-- Global Loading -->
 <div *ngIf="loading" class="global-loading">

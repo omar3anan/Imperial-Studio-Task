@@ -114,3 +114,17 @@ button {
 button:hover {
   transform: scale(1.05);
 }
+.wishlist-icon {
+  font-size: 2rem;
+  cursor: pointer;
+  color: gray; /* Default color */
+  transition: color 0.3s ease;
+}
+
+.wishlist-icon.filled {
+  color: red; /* Filled heart color */
+}
+
+.wishlist-icon:hover {
+  color: #ff4d4d; /* Heart color when hovered (for better UX) */
+}

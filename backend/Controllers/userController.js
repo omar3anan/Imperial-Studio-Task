@@ -29,7 +29,7 @@ exports.uploadProfilePicture = (req, res) => {
   });
 };
 
-// Get Profile Info (called when loading frontend)
+// Get Profile Info with Wishlist (called when loading frontend)
 exports.getProfile = (req, res) => {
   const token = req.header('Authorization')?.split(' ')[1];
   if (!token) return res.status(401).json({ message: 'Access denied. No token provided.' });
@@ -37,16 +37,17 @@ exports.getProfile = (req, res) => {
   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
     if (err) return res.status(403).json({ message: 'Invalid token.' });
 
-    User.findById(decoded.id, (err, results) => {
+    // Use the new findByIdWithWishlist to include wishlist data
+    User.findByIdWithWishlist(decoded.id, (err, results) => {
       if (err) return res.status(500).json({ message: 'Internal server error' });
       if (!results || results.length === 0) return res.status(404).json({ message: 'User not found' });
     
       const user = results[0];
-      console.log('Profile Picture URL:', user.profile_picture); // Add this log to check if the profile picture URL is correct
       res.status(200).json({
         name: user.name,
         email: user.email,
-        profile_picture: user.profile_picture, // This should match what your frontend uses
+        profile_picture: user.profile_picture,
+        wishlist: user.wishlist // This will be an array of product IDs
       });
     });
   });
@@ -61,6 +62,7 @@ exports.getAllUsers = (req, res) => {
 };
 
 exports.getUserById = (req, res) => {
+  // You could switch to using findByIdWithWishlist if you also want wishlist info here.
   User.findById(req.params.id, (err, results) => {
     if (err) return res.status(500).json({ message: 'Error fetching user.' });
     if (!results || results.length === 0) return res.status(404).json({ message: 'User not found.' });

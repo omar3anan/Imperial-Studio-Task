@@ -56,15 +56,9 @@ export class ProfileComponent implements OnInit {
       }
     });
 
-    // Load wishlist
-    try {
-      this.wishlistItems = this.wishlistService.getWishlistItems();
-      this.wishlistLoading = false;
-    } catch (error) {
-      this.wishlistError = 'Failed to load wishlist';
-      this.wishlistLoading = false;
-    }
+
   }
+
 
   onUploadProfilePicture(event: any): void {
     const file: File = event.target.files[0];
@@ -96,10 +90,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  removeFromWishlist(product: Product): void {
-    this.wishlistService.removeFromWishlist(product.id);
-    this.wishlistItems = this.wishlistService.getWishlistItems();
-  }
+
 
   logout(): void {
     localStorage.removeItem('isAuthorised');
