@@ -15,18 +15,14 @@ export interface Profile {
   providedIn: 'root'
 })
 export class ProfileService {
-  // Base URL for users endpoints
   private baseUrl: string = 'http://localhost:3000/users';
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Gets the profile data for the user with the specified id.
-   * @param userId The user id.
-   */
   getProfile(userId: number): Observable<Profile> {
     return this.http.get<Profile>(`${this.baseUrl}/${userId}`);
   }
+
   uploadProfilePicture(userId: number, file: File): Observable<any> {
     const formData = new FormData();
     formData.append('profilePicture', file);
@@ -37,5 +33,4 @@ export class ProfileService {
       { responseType: 'json' }
     );
   }
-
 }

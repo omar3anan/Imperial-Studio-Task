@@ -43,7 +43,11 @@ export class ProfileComponent implements OnInit {
     // Fetch profile
     this.profileService.getProfile(userId).subscribe({
       next: (profileData) => {
-        this.profile = profileData;
+        // Handle both camelCase and snake_case
+        this.profile = {
+          ...profileData,
+          profile_picture: (profileData as any).profile_picture || (profileData as any).profilePicture || null
+        };
         this.loading = false;
       },
       error: (err) => {
@@ -65,12 +69,25 @@ export class ProfileComponent implements OnInit {
   onUploadProfilePicture(event: any): void {
     const file: File = event.target.files[0];
     const userIdStr = localStorage.getItem('userId');
+
     if (file && userIdStr) {
       const userId = parseInt(userIdStr, 10);
       this.profileService.uploadProfilePicture(userId, file).subscribe({
         next: (response) => {
           console.log('Upload successful:', response);
-          this.profile!.profile_picture = response.profilePicture; // immediate UI update
+
+          // Refresh profile after upload
+          this.profileService.getProfile(userId).subscribe({
+            next: (updatedProfile) => {
+              this.profile = {
+                ...updatedProfile,
+                profile_picture: (updatedProfile as any).profile_picture || (updatedProfile as any).profilePicture || null
+              };
+            },
+            error: (err) => {
+              console.error('Failed to refresh profile after upload:', err);
+            }
+          });
         },
         error: (err) => {
           this.error = err.error?.message || 'Failed to upload profile picture';
@@ -78,7 +95,6 @@ export class ProfileComponent implements OnInit {
       });
     }
   }
-
 
   removeFromWishlist(product: Product): void {
     this.wishlistService.removeFromWishlist(product.id);

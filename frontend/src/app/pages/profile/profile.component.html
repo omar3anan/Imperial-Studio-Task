@@ -1,50 +1,51 @@
+<!-- profile.component.html -->
 <div class="profile-container" *ngIf="!loading">
-  <!-- Display error if any -->
+  <!-- Error Message -->
   <div *ngIf="error" class="error-message">{{ error }}</div>
 
-  <!-- Profile Details -->
+  <!-- Profile Section -->
   <div *ngIf="profile" class="profile-card">
     <h2>Welcome, {{ profile.name }}</h2>
-    <p>Email: {{ profile.email }}</p>
+    <p><strong>Email:</strong> {{ profile.email }}</p>
 
-    <!-- Profile Picture -->
+    <!-- Profile Picture Section -->
     <div class="profile-picture">
-      <img *ngIf="profile.profile_picture; else noPic" [src]="profile.profile_picture" alt="Profile Picture" />
+      <ng-container *ngIf="profile.profile_picture; else noPic">
+        <img [src]="profile.profile_picture" alt="Profile Picture" />
+      </ng-container>
       <ng-template #noPic>
         <div class="default-icon">
           <i class="fa fa-user-circle fa-5x"></i>
           <p>No profile picture available.</p>
         </div>
-
       </ng-template>
     </div>
 
-    <!-- Upload New Profile Picture -->
+    <!-- Upload New Picture -->
     <div class="upload-section">
-      <label for="profilePicture" class="upload-label">Upload Profile Picture</label>
+      <label for="profilePicture" class="upload-label">Upload New Profile Picture</label>
       <input type="file" id="profilePicture" (change)="onUploadProfilePicture($event)" />
     </div>
 
     <button class="logout-btn" (click)="logout()">Logout</button>
   </div>
-
-  <!-- Wishlist Section -->
 </div>
+
+<!-- Wishlist Section -->
 <div class="wishlist-wrapper">
   <h3>Your Wishlist</h3>
 
-  <!-- Wishlist Loading -->
+  <!-- Wishlist States -->
   <div *ngIf="wishlistLoading" class="loading-spinner">
     <p>Loading wishlist...</p>
   </div>
 
-  <!-- Wishlist Error -->
   <div *ngIf="wishlistError" class="error-message">
     <p>{{ wishlistError }}</p>
   </div>
 
   <!-- Wishlist Items -->
-  <div class="wishlist-container" *ngIf="!wishlistLoading && !wishlistError && wishlistItems.length > 0">
+  <div *ngIf="!wishlistLoading && !wishlistError && wishlistItems.length > 0" class="wishlist-container">
     <div class="wishlist-card" *ngFor="let item of wishlistItems">
       <img [src]="item.image_url || 'https://via.placeholder.com/150?text=Product'" alt="{{ item.name }}" />
       <h3>{{ item.name }}</h3>
@@ -61,6 +62,6 @@
 </div>
 
 <!-- Global Loading -->
-<div *ngIf="loading">
+<div *ngIf="loading" class="global-loading">
   <p>Loading profile...</p>
 </div>
