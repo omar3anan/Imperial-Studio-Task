@@ -152,13 +152,32 @@ node index.js
 
 ## 📌 To Do
 
-- [ ] Add AngularJS code to the repository
-- [ ] Implement pagination & product filtering
-- [ ] Add payment gateway (Stripe/PayPal)
-- [ ] Dockerize for deployment
+- [ ] Install dependencies for frontend (`npm install` in `/frontend`)
+- [ ] Install dependencies for backend (`npm install` in `/backend`)
+- [ ] Import SQL schema located in `/database/ecommerce_schema.sql`
+- [ ] Import Postman collection provided in `/postman/` folder for testing endpoints
+
 
 ---
+## 🔐 Environment Variables
 
+Create a `.env` file in the root directory with the following variables:
+
+```env
+PORT=3000
+DB_HOST=localhost
+DB_USER=your_mysql_username
+DB_PASSWORD=your_mysql_password
+DB_NAME=ecommerce_db
+
+JWT_SECRET_KEY=your_jwt_secret
+
+AWS_BUCKET_NAME=your_bucket_name
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_REGION=your_aws_region
+```
+---
 ## 👨‍💻 Author
 
 **Omar Anan Abou-Romia**
