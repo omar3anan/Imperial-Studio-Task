@@ -41,32 +41,6 @@ This project simulates a basic e-commerce experience from both user and admin pe
   - Admin can also delete products.
 
 ---
-## 📁 Project Structure
-
-```bash
-.
-├── config/
-│   └── db.js
-├── controllers/
-│   ├── authController.js
-│   ├── productController.js
-│   ├── userController.js
-│   └── wishlistController.js
-├── models/
-│   ├── productModel.js
-│   ├── userModel.js
-│   └── wishlistModel.js
-├── routes/
-│   ├── authRoutes.js
-│   ├── productRoutes.js
-│   ├── userRoutes.js
-│   └── wishlistRoutes.js
-├── S3.js
-├── index.js
-└── .env
-```
-
----
 
 ## 🚀 Getting Started
 
