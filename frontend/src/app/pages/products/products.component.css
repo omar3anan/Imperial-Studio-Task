@@ -1,0 +1,130 @@
+/* ------------------------------ */
+/* Loading & Error Styles        */
+/* ------------------------------ */
+.loading-spinner, .error-message {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 1.2rem;
+  color: #e0d7ff;
+  text-shadow: 0 0 8px rgba(175, 82, 222, 0.6);
+}
+
+/* ------------------------------ */
+/* Products Container Layout     */
+/* ------------------------------ */
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  margin: auto;
+  max-width: 1200px;
+}
+
+/* ------------------------------ */
+/* Individual Product Card       */
+/* ------------------------------ */
+.product-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  color: #fff;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+/* ------------------------------ */
+/* Product Image                 */
+/* ------------------------------ */
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+/* ------------------------------ */
+/* Text Info                     */
+/* ------------------------------ */
+.product-card h3 {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  color: #eac9ff;
+}
+
+.product-card p {
+  font-size: 0.95rem;
+  color: #c2b8d9;
+  margin-bottom: 1rem;
+}
+
+.product-card strong {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+/* ------------------------------ */
+/* Wishlist Icon Style           */
+/* ------------------------------ */
+.wishlist-icon {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  font-size: 3.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.3s ease;
+  color: #ff79c6;
+}
+
+.wishlist-icon.filled {
+  color: #ff4081;
+}
+
+.wishlist-icon:hover {
+  transform: scale(1.2);
+}
+
+/* ------------------------------ */
+/* Wishlist Button               */
+/* ------------------------------ */
+button {
+  display: block;
+  margin: 2rem auto;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background: linear-gradient(135deg, #8e2de2, #4a00e0);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+.wishlist-icon {
+  font-size: 2rem;
+  cursor: pointer;
+  color: gray; /* Default color */
+  transition: color 0.3s ease;
+}
+
+.wishlist-icon.filled {
+  color: red; /* Filled heart color */
+}
+
+.wishlist-icon:hover {
+  color: #ff4d4d; /* Heart color when hovered (for better UX) */
+}

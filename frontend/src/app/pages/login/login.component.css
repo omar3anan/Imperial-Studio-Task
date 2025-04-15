@@ -1,0 +1,71 @@
+/* Container styling for the login form */
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  background: #f7f7f7;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styling */
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* Form group container */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Label styling */
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #444;
+}
+
+/* Input styling */
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Button styling */
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Disabled button style */
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Inline error messages */
+.error {
+  color: #cc0000;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+/* Global error message styling */
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 15px;
+}
