@@ -1,0 +1,26 @@
+{
+  "name": "aws",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "serverless deploy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.787.0",
+    "@middy/core": "^5.4.6",
+    "@middy/http-error-handler": "^5.4.6",
+    "@middy/http-json-body-parser": "^5.4.6",
+    "@middy/http-multipart-body-parser": "^5.4.6",
+    "aws": "file:",
+    "aws-serverless-express": "^3.4.0",
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.2",
+    "mysql2": "^3.14.0"
+  }
+}
