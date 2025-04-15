@@ -1,48 +1,69 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+const { uploadToS3, getUploadMiddleware } = require('../S3');
 
 /**
  * Register a new user.
  * Accepts: name, email, password.
  */
-exports.register = async (req, res) => {
-  const { name, email, password } = req.body;
+const uploadProfilePicture = getUploadMiddleware('profilePicture');
 
-  if (!name || !email || !password) {
-    return res.status(400).json({ message: 'Name, email, and password are required.' });
-  }
+exports.register = (req, res) => {
+  // Handle file upload using the multer middleware
+  uploadProfilePicture(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ message: 'Error uploading file', error: err.message });
+    }
 
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = { name, email, password: hashedPassword };
+    const { name, email, password } = req.body;
 
-    User.create(user, (err, results) => {
-      if (err) {
-        console.error('Database error:', err);
-        return res.status(500).json({ message: 'Database error' });
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: 'Name, email, and password are required.' });
+    }
+
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = { name, email, password: hashedPassword };
+
+      // If a file (profile picture) was uploaded, handle it
+      if (req.file) {
+        try {
+          // Upload the image to S3
+          const imageUrl = await uploadToS3(req.file);
+          user.profilePicture = imageUrl; // Add the image URL to the user object
+        } catch (error) {
+          return res.status(500).json({ message: 'Image upload failed', error: error.message });
+        }
       }
 
-      const token = jwt.sign({ id: results.insertId }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+      // Save the user to the database
+      User.create(user, (err, results) => {
+        if (err) {
+          console.error('Database error:', err);
+          return res.status(500).json({ message: 'Database error' });
+        }
 
-      // Return full user data
-      res.status(201).json({
-        message: 'User registered successfully',
-        token,
-        user: {
-          id: results.insertId,
-          name,
-          email,
-          profilePicture: null, // Or your default value if you have one
-        },
+        const token = jwt.sign({ id: results.insertId }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+
+        // Return full user data including profile picture URL if uploaded
+        res.status(201).json({
+          message: 'User registered successfully',
+          token,
+          user: {
+            id: results.insertId,
+            name,
+            email,
+            profilePicture: user.profilePicture || null, // If no picture, send null or a default image URL
+          },
+        });
       });
-    });
-  } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-};
-
+    } catch (error) {
+      console.error('Registration error:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+}
 /**
  * Login an existing user.
  * Accepts: email and password.

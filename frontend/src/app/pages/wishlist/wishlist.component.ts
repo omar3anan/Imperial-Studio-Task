@@ -17,6 +17,7 @@ export class WishlistComponent implements OnInit {
   wishlistError: string = '';
   userId: number = Number(localStorage.getItem('userId'));  // Assuming user ID is stored in localStorage
   products: Product[] = []; // Array to hold all available products
+  totalCost: number = 0; // Variable to store total cost
 
   constructor(
     private wishlistService: WishlistService,
@@ -44,8 +45,11 @@ export class WishlistComponent implements OnInit {
       next: (response) => {
         const productIds = response.wishlist; // Array of product IDs
 
-        // Map the product IDs to actual Product objects using filter
+        // Map the product IDs to actual Product objects
         this.wishlistItems = this.products.filter(product => productIds.includes(product.id));
+
+        // Calculate total cost
+        this.calculateTotalCost();
 
         this.wishlistLoading = false;
       },
@@ -61,10 +65,23 @@ export class WishlistComponent implements OnInit {
     this.wishlistService.removeFromWishlist(product.id, this.userId).subscribe({
       next: () => {
         this.wishlistItems = this.wishlistItems.filter(item => item.id !== product.id);
+        // Recalculate the total cost after removal
+        this.calculateTotalCost();
       },
       error: () => {
         this.wishlistError = 'Failed to remove product from wishlist';
       }
     });
+  }
+
+  // Calculate the total cost of the wishlist items
+  calculateTotalCost(): void {
+    this.totalCost = this.wishlistItems.reduce((sum, item) => {
+      // Convert price to number if it's a string
+      const price = typeof item.price === 'string' ? parseFloat(item.price) : item.price;
+
+      // Ensure price is a valid number before adding
+      return sum + (isNaN(price) ? 0 : price);
+    }, 0);
   }
 }

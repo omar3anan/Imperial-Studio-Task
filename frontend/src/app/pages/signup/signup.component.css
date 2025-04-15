@@ -6,6 +6,7 @@
   padding: 25px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
 }
 
 /* Header styling */
@@ -13,11 +14,12 @@
   text-align: center;
   margin-bottom: 25px;
   color: #333;
+  font-size: 24px;
 }
 
 /* Form group container */
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 /* Label styling */
@@ -26,21 +28,64 @@
   margin-bottom: 5px;
   font-weight: bold;
   color: #444;
+  font-size: 14px;
 }
 
 /* Input styling */
 .form-group input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* File input styling */
+input[type="file"] {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Success and Error messages styling */
+.success-message,
+.error-message {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Success message styling */
+.success-message {
+  color: #28a745; /* Green */
+}
+
+/* Error message styling */
+.error-message {
+  color: #cc0000; /* Red */
+}
+
+/* Success message with emoji */
+.success-message::before {
+  content: "🎉"; /* Adding the celebratory emoji */
+  margin-right: 8px;
 }
 
 /* Button styling */
 button {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-top: 10px;
   background-color: #007bff;
   color: #fff;
@@ -48,6 +93,11 @@ button {
   border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
 
 /* Disabled button style */
@@ -56,16 +106,21 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Inline error messages */
+/* Global error message styling */
 .error {
   color: #cc0000;
   font-size: 0.9em;
   margin-top: 5px;
 }
 
-/* Global error message styling */
-.error-message {
-  color: red;
-  text-align: center;
-  margin-top: 15px;
+/* Form responsiveness */
+@media (max-width: 480px) {
+  .signup-container {
+    padding: 20px;
+  }
+
+  .form-group input,
+  button {
+    font-size: 14px;
+  }
 }

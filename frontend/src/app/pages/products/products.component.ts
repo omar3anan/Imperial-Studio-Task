@@ -16,7 +16,7 @@ export class ProductsComponent implements OnInit {
   products: Product[] = [];
   loading: boolean = true;
   errorMessage: string = '';
-  userId: number = Number(localStorage.getItem('userId')); // Assuming user ID is stored in localStorage
+  userId: number | null = Number(localStorage.getItem('userId')); // User ID can be null if not logged in
   wishlistItems: number[] = []; // Array to store product IDs in the wishlist
 
   constructor(
@@ -26,19 +26,16 @@ export class ProductsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (!this.userId) {
-      this.errorMessage = 'User not logged in.';
-      this.loading = false;
-      return;
-    }
-
-    // Fetch all products
+    // Fetch all products regardless of whether the user is logged in or not
     this.productService.getProducts().subscribe({
       next: (data) => {
         this.products = data;
         this.loading = false;
-        // Load the user's wishlist after products are fetched
-        this.loadWishlist();
+
+        // If the user is logged in, load their wishlist
+        if (this.userId) {
+          this.loadWishlist();
+        }
       },
       error: () => {
         this.errorMessage = 'Failed to load products';
@@ -47,24 +44,25 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  // Fetch the wishlist items (product IDs) from the backend
+  // Fetch the wishlist items (product IDs) from the backend if user is logged in
   loadWishlist(): void {
-    this.wishlistService.getWishlistItems(this.userId).subscribe({
-      next: (response) => {
-        // response.wishlist should be an array of product IDs, for example: [1, 2, 3]
-        this.wishlistItems = response.wishlist;
-      },
-      error: () => {
-        this.errorMessage = 'Failed to load wishlist';
-      }
-    });
+    if (this.userId) {
+      this.wishlistService.getWishlistItems(this.userId).subscribe({
+        next: (response) => {
+          this.wishlistItems = response.wishlist;
+        },
+        error: () => {
+          this.errorMessage = 'Failed to load wishlist';
+        }
+      });
+    }
   }
 
   // Toggle the wishlist status of a product
   toggleWishlist(product: Product): void {
     if (this.isInWishlist(product)) {
       // Remove from wishlist
-      this.wishlistService.removeFromWishlist(product.id, this.userId).subscribe({
+      this.wishlistService.removeFromWishlist(product.id, this.userId!).subscribe({
         next: () => {
           // Remove product ID from local wishlist array
           this.wishlistItems = this.wishlistItems.filter(item => item !== product.id);
@@ -75,7 +73,7 @@ export class ProductsComponent implements OnInit {
       });
     } else {
       // Add to wishlist
-      this.wishlistService.addToWishlist(product.id, this.userId).subscribe({
+      this.wishlistService.addToWishlist(product.id, this.userId!).subscribe({
         next: () => {
           // Add product ID to local wishlist array
           this.wishlistItems.push(product.id);

@@ -33,13 +33,13 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Sends a registration request to the back-end.
+   * Sends a registration request to the back-end, including a profile picture if provided.
    *
-   * @param user - An object containing name, email, and password.
+   * @param user - An object containing name, email, password, and optionally a profile picture.
    * @returns An Observable that emits the server's response.
    */
-  register(user: { name: string; email: string; password: string }): Observable<RegisterResponse> {
-    return this.http.post<RegisterResponse>(`${this.baseUrl}/register`, user)
+  register(formData: FormData): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.baseUrl}/register`, formData)
       .pipe(
         tap(response => {
           // After a successful registration, save token and user ID in localStorage
@@ -69,15 +69,4 @@ export class AuthService {
         })
       );
   }
-
-  /**
-   * Logs out the user by removing auth data from localStorage.
-   */
-//   logout(): void {
-//     localStorage.removeItem('token');
-//     localStorage.removeItem('userId');
-//     localStorage.removeItem('isAuthorised');
-
-//   }
-// }
 }

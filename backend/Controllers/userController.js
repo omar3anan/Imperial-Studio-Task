@@ -1,19 +1,26 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const User = require('../models/userModel');
-const { upload, uploadToS3 } = require('../S3');
+// Ensure this import points to the correct path where your S3 module is located
+const { getUploadMiddleware, uploadToS3 } = require('../S3');
+
 
 dotenv.config();
 
 // Upload Profile Picture to S3 and Save in DB
 exports.uploadProfilePicture = (req, res) => {
-  upload(req, res, async (err) => {
+  // Use getUploadMiddleware with the correct field name (e.g., 'profilePicture')
+  const uploadMiddleware = getUploadMiddleware('profilePicture');
+
+  // Use the middleware in the request handler
+  uploadMiddleware(req, res, async (err) => {
     if (err) return res.status(400).json({ error: err.message });
 
     try {
-      const fileUrl = await uploadToS3(req.file);
-      const userId = req.params.id;
+      const fileUrl = await uploadToS3(req.file);  // Upload to S3
+      const userId = req.params.id;  // User ID from the URL parameter
 
+      // Update user profile with the new picture URL
       User.updateProfilePictureById(userId, fileUrl, (err, result) => {
         if (err) return res.status(500).json({ message: 'Failed to update DB' });
         if (result.affectedRows === 0) return res.status(404).json({ message: 'User not found.' });

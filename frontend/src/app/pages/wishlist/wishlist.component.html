@@ -1,4 +1,10 @@
 <div class="wishlist-container" *ngIf="!wishlistLoading && !wishlistError && wishlistItems.length > 0">
+  <div class="wishlist-total">
+    <h3>Total Cost: ${{ totalCost }}</h3>
+  </div>
+  <!-- Display the total cost of the wishlist -->
+
+  <!-- Display the wishlist items -->
   <div class="wishlist-card" *ngFor="let item of wishlistItems">
     <img [src]="item.image_url" alt="{{ item.name }}" />
     <h3>{{ item.name }}</h3>
@@ -8,4 +14,14 @@
     <!-- Remove From Wishlist Button -->
     <button (click)="removeFromWishlist(item)">Remove</button>
   </div>
+</div>
+
+<!-- Display loading state -->
+<div *ngIf="wishlistLoading" class="loading-spinner">
+  <p>Loading...</p>
+</div>
+
+<!-- Display error if there is any -->
+<div *ngIf="wishlistError" class="error-message">
+  <p>{{ wishlistError }}</p>
 </div>
