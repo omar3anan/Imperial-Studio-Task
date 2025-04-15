@@ -1,73 +1,135 @@
-# eCommerce Application
+# 🛒 Full-Stack E-commerce Web App
 
-## Overview
-This project is an eCommerce application built using Angular for the frontend and AWS Lambda with Node.js for the backend. It allows users to register, log in, browse products, manage a shopping cart, and handle multiple addresses.
+A full-stack e-commerce web application built with **AngularJS (frontend)** and **Node.js + Express.js (backend)** using the **MVC architecture**. The app supports user registration with profile picture upload (via AWS S3), login, product listing & management, and wishlist functionality.
 
-## Features
-- User authentication with JWT
-- User profile management with profile picture upload to S3
-- Product listing with images stored in S3
-- Shopping cart functionality
-- Multiple address management for users
+---
 
-## Project Structure
+## 🧰 Tech Stack
+
+- **Frontend**: AngularJS
+- **Backend**: Node.js, Express.js
+- **Database**: MySQL
+- **File Storage**: AWS S3
+- **Authentication**: JWT
+- **Architecture**: MVC
+
+---
+
+## 📂 Project Structure
+
+```bash
+.
+├── config/
+│   └── db.js
+├── controllers/
+│   ├── authController.js
+│   ├── productController.js
+│   ├── userController.js
+│   └── wishlistController.js
+├── models/
+│   ├── productModel.js
+│   ├── userModel.js
+│   └── wishlistModel.js
+├── routes/
+│   ├── authRoutes.js
+│   ├── productRoutes.js
+│   ├── userRoutes.js
+│   └── wishlistRoutes.js
+├── S3.js
+├── index.js
+└── .env
 ```
-ecommerce-app
-├── backend               # Backend code (AWS Lambda)
-│   ├── lambdas          # Lambda functions
-│   ├── package.json     # Backend dependencies
-│   └── README.md        # Backend documentation
-├── frontend              # Frontend code (Angular)
-│   ├── src              # Source files
-│   ├── angular.json     # Angular configuration
-│   ├── package.json     # Frontend dependencies
-│   └── README.md        # Frontend documentation
-├── database              # Database schema
-│   ├── schema.sql       # MySQL schema
-│   └── README.md        # Database documentation
-├── postman               # Postman collection for API testing
-│   └── ecommerce-app.postman_collection.json
-└── README.md            # Overall project documentation
-```
+🚀 Getting Started
+1. Clone the Repository
+bash
+Copy code
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+2. Install Dependencies
+Backend (Node.js)
+bash
+Copy code
+cd backend
+npm install
+Frontend (AngularJS)
+bash
+Copy code
+cd frontend
+npm install
+3. Set Up Environment Variables
+Create a .env file in the root directory:
 
-## Getting Started
+env
+Copy code
+JWT_SECRET_KEY=your_jwt_secret
+AWS_BUCKET_NAME=your_bucket_name
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
+AWS_REGION=your_region
+4. Set Up MySQL Database
+Open MySQL Workbench.
 
-### Prerequisites
-- Node.js
-- MySQL
-- AWS account with S3 and Lambda services
+Import the provided SQL schema file (e.g., ecommerce_schema.sql) into your MySQL server.
 
-### Backend Setup
-1. Navigate to the `backend` directory.
-2. Install dependencies:
-   ```
-   npm install
-   ```
-3. Configure AWS credentials for Lambda and S3 access.
-4. Deploy Lambda functions using the AWS Management Console.
+Update the credentials in config/db.js if needed.
 
-### Frontend Setup
-1. Navigate to the `frontend` directory.
-2. Install dependencies:
-   ```
-   npm install
-   ```
-3. Run the Angular application:
-   ```
-   ng serve
-   ```
+5. Start the Server
+bash
+Copy code
+node index.js
+📡 API Endpoints
+🔐 Auth
 
-### Database Setup
-1. Use the `schema.sql` file in the `database` directory to create the MySQL database structure.
-2. Ensure that the database connection details are correctly configured in the backend code.
+Method	Endpoint	Description
+POST	/register	Register a new user with optional profile picture upload
+POST	/login	Login with email and password
+👤 Users
 
-### AWS Setup Steps
-1. Create an S3 bucket for storing profile and product images.
-2. Set up IAM roles and policies to allow Lambda functions to access S3 and RDS (if using MySQL on RDS).
-3. Configure environment variables for Lambda functions as needed.
+Method	Endpoint	Description
+GET	/users	Get all users
+GET	/users/:id	Get user by ID
+POST	/users	Create a new user
+PUT	/users/:id	Update user info
+DELETE	/users/:id	Delete a user
+POST	/users/:id/upload	Upload/update profile picture
+GET	/profile	Get logged-in user profile + wishlist (requires token)
+📦 Products
 
-## API Testing
-A Postman collection is provided in the `postman` directory to test the API endpoints. Import the `ecommerce-app.postman_collection.json` file into Postman to get started.
+Method	Endpoint	Description
+GET	/products	Get all products
+POST	/products	Add a new product (image required)
+DELETE	/products/:id	Delete product by ID
+❤️ Wishlist
 
-## License
+Method	Endpoint	Description
+GET	/wishlist/user/:userId	Get user's wishlist
+POST	/wishlist/:productId/user/:userId	Add product to wishlist
+DELETE	/wishlist/:productId/user/:userId	Remove product from wishlist
+📸 Features
+✅ User Authentication (JWT)
+
+✅ Profile Picture Upload (AWS S3)
+
+✅ Product CRUD Operations
+
+✅ Wishlist Add/Remove
+
+✅ AngularJS Dynamic UI
+
+✅ MySQL Schema Included
+
+📌 To Do
+ Add frontend AngularJS code to repository (if not included yet)
+
+ Add pagination/search for products
+
+ Dockerize the app
+
+ Add Stripe/PayPal for payments
+
+🧑‍💻 Author
+Omar Anan Abou-Romia
+
+📜 License
 This project is licensed under the MIT License.
+
