@@ -8,7 +8,6 @@ Features user authentication, AWS S3 image uploads, and wishlist functionality.
 ![Badge](https://img.shields.io/badge/Backend-Node.js-green)
 ![Badge](https://img.shields.io/badge/Database-MySQL-blue)
 ![Badge](https://img.shields.io/badge/Storage-AWS%20S3-yellow)
-![Badge](https://img.shields.io/badge/License-MIT-lightgrey)
 
 ---
 
@@ -55,8 +54,8 @@ Features user authentication, AWS S3 image uploads, and wishlist functionality.
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone [https://github.com/your-username/your-repo-name.git](https://github.com/omar3anan/Imperial-Studio-Task/)
+cd Imperial-Studio-Task
 ```
 
 ### 2️⃣ Install Dependencies
