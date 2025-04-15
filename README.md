@@ -22,6 +22,25 @@ Features user authentication, AWS S3 image uploads, and wishlist functionality.
 
 ---
 
+## 🌟 Project Overview
+
+This project simulates a basic e-commerce experience from both user and admin perspectives. It includes:
+
+- 🔐 **User Signup** with email, password, name, and profile picture.  
+  - The uploaded picture is stored in **AWS S3**, and the image URL is saved in the **MySQL** database.
+
+- 🔓 **User Login** using email and password.
+
+- 💖 **Wishlist (Cart)** functionality:
+  - Each product shows a heart icon. Clicking the heart adds the product to the user's wishlist.
+  - The wishlist is stored in the database, so it remains persistent even after logout or refresh.
+
+- 🛍️ **Admin Product Management** (Tested):
+  - Admin can add a product with name, description, price, and photo.
+  - The photo is uploaded to S3, and product details are stored in the MySQL database.
+  - Admin can also delete products.
+
+---
 ## 📁 Project Structure
 
 ```bash
