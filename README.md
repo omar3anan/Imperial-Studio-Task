@@ -54,7 +54,7 @@ Features user authentication, AWS S3 image uploads, and wishlist functionality.
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone [https://github.com/your-username/your-repo-name.git](https://github.com/omar3anan/Imperial-Studio-Task/)
+git clone [https://github.com/omar3anan/Imperial-Studio-Task/]
 cd Imperial-Studio-Task
 ```
 
@@ -186,7 +186,3 @@ AWS_REGION=your_aws_region
 
 ---
 
-## 📄 License
-
-This project is licensed under the **MIT License**.  
-Feel free to use, modify, and distribute!
