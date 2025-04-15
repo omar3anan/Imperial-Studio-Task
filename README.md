@@ -1,24 +1,25 @@
-
 # 🛒 Full-Stack E-commerce Web App
 
 A full-stack e-commerce application built using AngularJS & Node.js.  
-Features user authentication, AWS S3 image uploads, and wishlist functionality.
+Features user authentication, AWS S3 image uploads, and wishlist functionality.  
+**Note**: The original MVC architecture has been converted to AWS Lambda functions. You can check the Lambda code in the `Lambdas` branch [here](https://github.com/omar3anan/Imperial-Studio-Task/tree/Lambdas).
 
 ![Badge](https://img.shields.io/badge/Frontend-AngularJS-red)
 ![Badge](https://img.shields.io/badge/Backend-Node.js-green)
 ![Badge](https://img.shields.io/badge/Database-MySQL-blue)
 ![Badge](https://img.shields.io/badge/Storage-AWS%20S3-yellow)
+![Badge](https://img.shields.io/badge/Serverless-AWS%20Lambda-orange)
 
 ---
 
 ## 🔧 Tech Stack
 
 - 🖼 **Frontend**: AngularJS  
-- 🧠 **Backend**: Node.js + Express.js  
+- 🧠 **Backend**: Node.js + Express.js (MVC) / AWS Lambda (Serverless)  
 - 🗄 **Database**: MySQL  
 - ☁️ **File Storage**: AWS S3  
 - 🔐 **Authentication**: JWT  
-- 🏗 **Architecture**: MVC  
+- 🏗 **Architecture**: MVC (main branch) / Serverless Lambda (Lambdas branch)
 
 ---
 
@@ -47,13 +48,13 @@ This project simulates a basic e-commerce experience from both user and admin pe
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone [https://github.com/omar3anan/Imperial-Studio-Task/]
+git clone https://github.com/omar3anan/Imperial-Studio-Task/
 cd Imperial-Studio-Task
 ```
 
 ### 2️⃣ Install Dependencies
 
-#### Backend
+#### Backend (MVC - main branch)
 
 ```bash
 cd backend
@@ -66,6 +67,11 @@ npm install
 cd frontend
 npm install
 ```
+
+#### Lambda (Lambdas branch)
+
+Check the `Lambdas` branch for serverless implementation details:  
+[https://github.com/omar3anan/Imperial-Studio-Task/tree/Lambdas](https://github.com/omar3anan/Imperial-Studio-Task/tree/Lambdas)
 
 ### 3️⃣ Set Up Environment Variables
 
@@ -85,11 +91,13 @@ AWS_REGION=your_region
 - Import `ecommerce_schema.sql` or your custom schema
 - Update credentials in `config/db.js`
 
-### 5️⃣ Start the Server
+### 5️⃣ Start the Server (MVC)
 
 ```bash
 node index.js
 ```
+
+For Lambda deployment, refer to the `Lambdas` branch for setup instructions.
 
 ---
 
@@ -140,6 +148,7 @@ node index.js
 ✅ Wishlist Add/Remove functionality  
 ✅ Responsive AngularJS Frontend  
 ✅ Fully Integrated MySQL Database  
+✅ Serverless Implementation with AWS Lambda (Lambdas branch)
 
 ---
 
@@ -149,9 +158,10 @@ node index.js
 - [ ] Install dependencies for backend (`npm install` in `/backend`)
 - [ ] Import SQL schema located in `/database/ecommerce_schema.sql`
 - [ ] Import Postman collection provided in `/postman/` folder for testing endpoints
-
+- [ ] Deploy Lambda functions (refer to Lambdas branch)
 
 ---
+
 ## 🔐 Environment Variables
 
 Create a `.env` file in the root directory with the following variables:
@@ -170,7 +180,9 @@ AWS_ACCESS_KEY_ID=your_aws_access_key
 AWS_SECRET_ACCESS_KEY=your_aws_secret_key
 AWS_REGION=your_aws_region
 ```
+
 ---
+
 ## 👨‍💻 Author
 
 **Omar Anan Abou-Romia**
@@ -178,4 +190,3 @@ AWS_REGION=your_aws_region
 > Built with ❤️ by a passionate full-stack developer.
 
 ---
-
