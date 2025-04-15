@@ -73,8 +73,8 @@ export class SignupComponent implements OnInit {
           console.log('User registered successfully:', response);
           // Set flag to indicate user is authorised
           localStorage.setItem('isAuthorised', 'true');
-          // Automatically navigate to the profile page after successful registration.
-          this.router.navigate(['/profile']);
+          // Trigger a page reload to reflect changes like profile picture
+          window.location.reload(); // This reloads the entire page
         },
         error: (err) => {
           console.error('Registration error:', err);

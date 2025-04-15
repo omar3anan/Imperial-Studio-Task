@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/profile']);
     }
   }
-
   onSubmit(): void {
     if (this.loginForm.valid) {
       // Use non-null assertions to ensure values are strings when form is valid
@@ -47,8 +46,12 @@ export class LoginComponent implements OnInit {
           console.log('User logged in successfully:', response);
           // Set flag to indicate user is authorised
           localStorage.setItem('isAuthorised', 'true');
-          // Automatically navigate to the profile page after successful login
-          this.router.navigate(['/profile']);
+
+          // Navigate to the profile page after successful login
+          this.router.navigate(['/profile']).then(() => {
+            // Trigger a page reload to ensure any changes (e.g., profile picture) are updated
+            window.location.reload(); // This will reload the page to update the UI
+          });
         },
         error: (err) => {
           console.error('Login error:', err);
@@ -60,4 +63,5 @@ export class LoginComponent implements OnInit {
       this.loginForm.markAllAsTouched();
     }
   }
+
 }

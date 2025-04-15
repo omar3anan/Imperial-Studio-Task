@@ -1,4 +1,4 @@
-<!-- profile.component.html -->
+<!-- Profile Container -->
 <div class="profile-container" *ngIf="!loading">
   <!-- Error Message -->
   <div *ngIf="error" class="error-message">{{ error }}</div>
@@ -31,9 +31,12 @@
   </div>
 </div>
 
-
-
-<!-- Global Loading -->
+<!-- Global Loading (Page loading state) -->
 <div *ngIf="loading" class="global-loading">
   <p>Loading profile...</p>
+</div>
+
+<!-- Processing Overlay for Profile Picture Upload -->
+<div *ngIf="isProcessing" class="processing-overlay">
+  <div class="spinner">Processing...</div>
 </div>

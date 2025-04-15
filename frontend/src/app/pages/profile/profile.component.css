@@ -1,3 +1,4 @@
+/* Profile Container */
 .profile-container {
   max-width: 500px;
   margin: 40px auto;
@@ -9,11 +10,19 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Error Message */
 .error-message {
   color: red;
   margin-bottom: 10px;
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 1rem;
 }
 
+/* Profile Picture */
 .profile-picture {
   margin: 20px auto;
 }
@@ -43,6 +52,7 @@
   justify-content: center;
 }
 
+/* Upload Section */
 .upload-section {
   margin-top: 25px;
 }
@@ -63,6 +73,7 @@
   background-color: #f9f9f9;
 }
 
+/* Logout Button */
 .logout-btn {
   margin-top: 30px;
   padding: 10px 25px;
@@ -78,32 +89,18 @@
 .logout-btn:hover {
   background-color: #e84118;
 }
-h2{
+
+/* Header Styling */
+h2 {
   color: #2f3542;
   font-size: 2rem;
 }
-h3 {
-  color: #2f3542;
-  font-size: 2rem;
-  margin-bottom: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: 600;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  margin-top: 20px;
-  margin-bottom: 20px;
-  color: white;
 
-}
+/* ------------------------------ */
+/* Wishlist Section Styling      */
+/* ------------------------------ */
 
-p {
-  color: #57606f;
-}
-/* ------------------------------ */
-/* General Wishlist Container     */
-/* ------------------------------ */
+/* General Wishlist Container */
 .wishlist-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -114,9 +111,7 @@ p {
   margin: auto;
 }
 
-/* ------------------------------ */
-/* Individual Wishlist Card       */
-/* ------------------------------ */
+/* Individual Wishlist Card */
 .wishlist-card {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(14px);
@@ -135,9 +130,7 @@ p {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* ------------------------------ */
-/* Wishlist Card Image            */
-/* ------------------------------ */
+/* Wishlist Card Image */
 .wishlist-card img {
   width: 100%;
   height: 200px;
@@ -146,21 +139,17 @@ p {
   margin-bottom: 1rem;
 }
 
-/* ------------------------------ */
-/* Wishlist Card Title and Info   */
-/* ------------------------------ */
+/* Wishlist Card Title and Info */
 .wishlist-card h3 {
   margin: 1rem 0;
   font-size: 1.3rem;
   color: #eac9ff;
-  align-items: center;
 }
 
 .wishlist-card p {
   font-size: 1rem;
   color: #c2b8d9;
   margin-bottom: 1rem;
-  align-items: center;
 }
 
 .wishlist-card strong {
@@ -170,9 +159,7 @@ p {
   color: #4a90e2;
 }
 
-/* ------------------------------ */
-/* Wishlist Card Remove Button    */
-/* ------------------------------ */
+/* Wishlist Card Remove Button */
 .wishlist-card button {
   padding: 0.8rem 1.2rem;
   background-color: #e53935;
@@ -190,8 +177,7 @@ p {
 }
 
 /* ------------------------------ */
-/* Loading Spinner                */
-/* ------------------------------ */
+/* Loading Spinner */
 .loading-spinner {
   display: flex;
   justify-content: center;
@@ -206,24 +192,51 @@ p {
 }
 
 /* ------------------------------ */
-/* Error Message                  */
-/* ------------------------------ */
-.error-message {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 1rem;
-  border-radius: 4px;
-  text-align: center;
-  font-size: 1rem;
-  margin-top: 1rem;
-}
-
-/* ------------------------------ */
-/* Empty Wishlist Message         */
-/* ------------------------------ */
+/* Empty Wishlist Message */
 .wishlist-container > p {
   text-align: center;
   font-size: 1.2rem;
   color: #888;
   margin-top: 3rem;
+}
+
+/* ------------------------------ */
+/* Profile Loading Spinner */
+.global-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #4a90e2;
+  font-weight: bold;
+}
+
+/* ------------------------------ */
+/* Processing Overlay */
+.processing-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it overlays above other content */
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #fff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

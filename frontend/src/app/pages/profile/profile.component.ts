@@ -17,15 +17,11 @@ export class ProfileComponent implements OnInit {
   profile: Profile | null = null;
   error: string | null = null;
   loading: boolean = true;
+  isProcessing: boolean = false;  // Flag to show processing window
 
-  // Wishlist-related variables
-  wishlistItems: Product[] = [];
-  wishlistLoading: boolean = true;
-  wishlistError: string = '';
 
   constructor(
     private profileService: ProfileService,
-    private wishlistService: WishlistService,
     private router: Router
   ) {}
 
@@ -55,10 +51,7 @@ export class ProfileComponent implements OnInit {
         this.loading = false;
       }
     });
-
-
   }
-
 
   onUploadProfilePicture(event: any): void {
     const file: File = event.target.files[0];
@@ -66,6 +59,10 @@ export class ProfileComponent implements OnInit {
 
     if (file && userIdStr) {
       const userId = parseInt(userIdStr, 10);
+
+      // Show processing window
+      this.isProcessing = true;
+
       this.profileService.uploadProfilePicture(userId, file).subscribe({
         next: (response) => {
           console.log('Upload successful:', response);
@@ -77,25 +74,35 @@ export class ProfileComponent implements OnInit {
                 ...updatedProfile,
                 profile_picture: (updatedProfile as any).profile_picture || (updatedProfile as any).profilePicture || null
               };
+
+              // Trigger a page reload to reflect changes like the profile picture
+              window.location.reload(); // This will reload the page to update the UI
+
+              // Hide processing window
+              this.isProcessing = false;
             },
             error: (err) => {
               console.error('Failed to refresh profile after upload:', err);
+              // Hide processing window on error
+              this.isProcessing = false;
             }
           });
         },
         error: (err) => {
           this.error = err.error?.message || 'Failed to upload profile picture';
+          // Hide processing window on error
+          this.isProcessing = false;
         }
       });
     }
   }
 
-
-
   logout(): void {
     localStorage.removeItem('isAuthorised');
     localStorage.removeItem('userId');
     localStorage.removeItem('token');
-    this.router.navigate(['/login']);
+
+    // Trigger a page reload to clear the UI and reset the app state
+    window.location.reload(); // This will reload the page, effectively logging the user out
   }
 }
