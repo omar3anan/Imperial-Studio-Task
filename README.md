@@ -94,7 +94,7 @@ AWS_REGION=your_region
 ### 5️⃣ Start the Server (MVC)
 
 ```bash
-node index.js
+npm start
 ```
 
 For Lambda deployment, refer to the `Lambdas` branch for setup instructions.
